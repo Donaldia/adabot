@@ -2,6 +2,7 @@ import discord
 import json
 from discord.ext import commands
 import time
+import os
 import checks
 
 bot = commands.Bot(command_prefix="!")
@@ -198,4 +199,4 @@ async def help(ctx):
     await bot.say("Main reason why im not running DOM on heroku is because it wouldn't save all the balance and XP when restarting the bot. But with Ada, it doesn't matter since it's only for emergencies")
 
 
-bot.run("")
+bot.run(str(os.environ.get('TOKEN')))
