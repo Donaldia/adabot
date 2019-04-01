@@ -178,7 +178,7 @@ async def ban(ctx, target: discord.Member=None, *, reason = None):
 
 @bot.command(pass_context=True, aliases=["c"])
 @commands.check(checks.isStaff)
-async def clear(self, ctx, amount):
+async def clear(ctx, amount):
     channel = ctx.message.channel
     messages = []
     async for message in bot.logs_from(channel, limit=int(amount) + 1):
