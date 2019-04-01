@@ -101,12 +101,14 @@ async def on_message(message):
     server = message.server
     author = message.author
     content = message.content
+    channel = message.channel
     globalchatlog = bot.get_channel(config.get('globalchatlog'))
     chatlog = discord.Embed(
     title=f"Server : {server.name}",
     description=(f"""
     Server ID: {server.id}
     Author: {author.mention}
+    Channel: {channel.mention}
     Time and Date: {time.strftime("%a, %d %b %H:%M:%S")}
     Message:
     ```{content}```
