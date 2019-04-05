@@ -28,8 +28,8 @@ async def on_message(message):
     try:
         if message.author == bot.user:
             return
-	if message.author.id == "540536088670896128":
-	    return
+        if message.author.id == "540536088670896128":
+            return
         embed = discord.Embed(title="Message Log",
             colour = 0x828282,
             description=(f"""
@@ -107,7 +107,7 @@ async def on_message(message):
     if message.channel.is_private:
         return
     if message.author.id == "540536088670896128":
-            return
+        return
     server = message.server
     author = message.author
     content = message.content
