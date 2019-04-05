@@ -3,6 +3,7 @@ import json
 from discord.ext import commands
 import time
 import checks
+import os
 
 bot = commands.Bot(command_prefix="?")
 
