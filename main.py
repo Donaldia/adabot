@@ -4,6 +4,8 @@ from discord.ext import commands
 import time
 import checks
 import os
+from discord.ext.commands import CommandNotFound
+import random
 
 bot = commands.Bot(command_prefix="?")
 
@@ -226,6 +228,33 @@ async def help(ctx):
     colour=0xcd07f9)
     await bot.send_message(ctx.message.author, embed=helpmessage)
     await bot.say(ctx.message.author.mention + " I've sent you a DM.")
+
+
+CDMESSAGES = ["It is not time yet.", "'Tis not yet time.", "Not yet.",
+"I need more time.", "I am not ready.", "It is not yet time."]
+
+@bot.event
+async def on_command_error(error, ctx):
+	channel = ctx.message.channel
+	if isinstance(error, commands.MissingRequiredArgument):
+		await bot.send_message(channel, "You need give me an arugument to work with... ❌")
+	elif isinstance(error, commands.BadArgument):
+		await bot.send_message(channel, "You gave me a bad argument, I can't work with that. ❌")
+	elif isinstance(error, commands.CommandNotFound):
+		# This is almost as ugly as Manta on Medusa
+		await bot.send_message(channel, "There is no command like this :thinking:")
+	elif isinstance(error, commands.CommandOnCooldown):
+		await bot.send_message(channel, random.choice(CDMESSAGES) + " (%ss remaining)" % int(error.retry_after))
+	elif isinstance(error, commands.NoPrivateMessage):
+		await bot.send_message(channel, "Truly, your wish is my command, but that order is not to be issued in secret. It must be invoked in a server.")
+	else:
+		try:
+			await bot.send_message(channel, "I fear some unprecedented disaster has occurred which I cannot myself resolve. Methinks you would do well to consult with Master Donald on this matter.")
+		except discord.NotFound:
+			await bot.send_message(channel, "I fear some unprecedented disaster has occurred which I cannot myself resolve.")
+		if isinstance(error, commands.CommandInvokeError):
+			print(repr(error.original))
+
 
 #TODO TAKE TOKEN OUT WHEN PUSHING INTO GITHUB
 bot.run(str(os.environ.get('TOKEN')))
