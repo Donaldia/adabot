@@ -9,8 +9,8 @@ bot = commands.Bot(command_prefix="?")
 
 bot.remove_command("help")
 
-#with open('adaconfig.json') as f:
-    #config = json.load(f)
+with open('adaconfig.json') as f:
+    config = json.load(f)
 
 #with open('adatoken.json') as f:
     #token = json.load(f)
