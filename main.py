@@ -2,19 +2,22 @@ import discord
 import json
 from discord.ext import commands
 import time
-import os
 import checks
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="?")
 
 bot.remove_command("help")
 
 with open('adaconfig.json') as f:
     config = json.load(f)
 
+with open('adatoken.json') as f:
+    token = json.load(f)
+
 @bot.event
 async def on_ready():
     print('Ready')
+    await bot.change_presence(game=discord.Game(name="?Help | 0.0.2"))
 
 
 @bot.listen()
@@ -101,14 +104,12 @@ async def on_message(message):
     server = message.server
     author = message.author
     content = message.content
-    channel = message.channel
     globalchatlog = bot.get_channel(config.get('globalchatlog'))
     chatlog = discord.Embed(
     title=f"Server : {server.name}",
     description=(f"""
     Server ID: {server.id}
     Author: {author.mention}
-    Channel: {channel.mention}
     Time and Date: {time.strftime("%a, %d %b %H:%M:%S")}
     Message:
     ```{content}```
@@ -180,7 +181,7 @@ async def ban(ctx, target: discord.Member=None, *, reason = None):
 
 @bot.command(pass_context=True, aliases=["c"])
 @commands.check(checks.isStaff)
-async def clear(ctx, amount):
+async def clear(self, ctx, amount):
     channel = ctx.message.channel
     messages = []
     async for message in bot.logs_from(channel, limit=int(amount) + 1):
@@ -195,10 +196,35 @@ async def clear(ctx, amount):
 
 @bot.command(pass_context=True)
 async def help(ctx):
-    await bot.say("Ada is a temporary bot while Donald is sleeping so he doesn't have to keep his computed on 24/7. Ada is running on Heroku for the time being.")
-    await bot.say("Only commands are: `!kick`, `!ban`, `!clear`")
-    await bot.say("Everything is still being logged. Every message, every command.")
-    await bot.say("Main reason why im not running DOM on heroku is because it wouldn't save all the balance and XP when restarting the bot. But with Ada, it doesn't matter since it's only for emergencies")
+    helpmessage = discord.Embed(
+    title="Ada Help.",
+    description=(
+    """
+    Ada is a temporary discord bot while Dom is offline. Ada is usually running at night EU times when Donald is unable to have Dom on.
+    There is going to be more features added to Ada when Donald gets to do them.
 
 
+    **Currently only commands are:**
+
+    `?kick` - Kicks the targeted user
+    `?ban` - Bans the targeted user from the server
+    `?clear` - Allows to clear messages from the chat.
+
+
+    **Other features:**
+
+    Punishment Logs,
+    Chat Logs,
+    Join-Left Logs
+
+
+    If you have any problems with Ada. Please DM or Tag **donald#5800** if he is in your server.
+
+
+    """),
+    colour=0xcd07f9)
+    await bot.send_message(ctx.message.author, embed=helpmessage)
+    await bot.say(ctx.message.author.mention + " I've sent you a DM.")
+
+#TODO TAKE TOKEN OUT WHEN PUSHING INTO GITHUB
 bot.run(str(os.environ.get('TOKEN')))

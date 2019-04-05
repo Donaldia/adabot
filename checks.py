@@ -3,6 +3,8 @@ import discord
 import json
 from discord.ext import commands
 
+os.chdir(r"C:\Users\Miro\Desktop\DiscordBots\Ada")
+
 
 def isDonald(ctx):
     return ctx.message.author.id == "289890066514575360"
