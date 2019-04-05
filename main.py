@@ -106,6 +106,8 @@ async def on_message(message):
         return
     if message.channel.is_private:
         return
+    if message.author.id == "540536088670896128":
+            return
     server = message.server
     author = message.author
     content = message.content
