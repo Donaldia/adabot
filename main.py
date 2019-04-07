@@ -27,10 +27,12 @@ async def on_ready():
 @bot.command(pass_context=True)
 @commands.check(checks.isDonald)
 async def changeplaying(ctx, *, status):
-    status = str(status)
-    data.change_value("adaconfig.json", "playing", status)
-    await bot.say(f"Done! My playing status will be **{status}**")
-
+    try:
+        status = str(status)
+        data.change_value("adaconfig.json", "playing", status)
+        await bot.say(f"Done! My playing status will be **{status}**")
+    except:
+        await bot.say("error happened")
 
 
 
