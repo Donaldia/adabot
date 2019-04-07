@@ -24,6 +24,15 @@ async def on_ready():
     status=config.get('playing')
     await bot.change_presence(game=discord.Game(name=status))
 
+@bot.command(pass_context=True)
+@commands.check(checks.isDonald)
+aync def changeplaying(ctx, *, status):
+    status = str(status)
+    data.change_value("adaconfig.json", "playing", status)
+    await bot.say(f"Done! My playing status will be **{status}**")
+
+
+
 
 @bot.listen()
 async def on_message(message):
