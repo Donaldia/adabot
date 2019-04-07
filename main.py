@@ -3,6 +3,7 @@ import json
 from discord.ext import commands
 import time
 import checks
+import data
 import os
 from discord.ext.commands import CommandNotFound
 import random
@@ -20,7 +21,8 @@ with open('adaconfig.json') as f:
 @bot.event
 async def on_ready():
     print('Ready')
-    await bot.change_presence(game=discord.Game(name="?Help | 0.0.2"))
+    status=config.get('playing')
+    await bot.change_presence(game=discord.Game(name=status))
 
 
 @bot.listen()
