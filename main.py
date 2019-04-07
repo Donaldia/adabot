@@ -26,14 +26,20 @@ async def on_ready():
 
 @bot.command(pass_context=True)
 @commands.check(checks.isDonald)
-async def changeplaying(ctx, *, status):
+async def changeplaying(ctx, *, playing):
     try:
-        status = str(status)
-        data.change_value("adaconfig.json", "playing", status)
-        await bot.say(f"Done! My playing status will be **{status}**")
-    except:
-        await bot.say("error happened")
-
+        await bot.change_presence(
+        game=discord.Game(
+        name=playing)
+        )
+        data.change_value('adaconfig.json', 'playing', playing)
+        e=discord.Embed(
+        title="Success! ✅",
+        colour=0x00ff00,
+        description=(f"""My playing status will be **{playing}**"""))
+        await bot.say(embed=e)
+    except discord.InvalidArgument as err:
+        await bot.say(err)
 
 
 @bot.listen()
