@@ -10,6 +10,9 @@ import random
 
 bot = commands.Bot(command_prefix="?")
 
+ignoredChannels = ["525468552325496848","534786299295694858","538444152354897920"]
+
+
 bot.remove_command("help")
 
 with open('adaconfig.json') as f:
@@ -45,6 +48,8 @@ async def changeplaying(ctx, *, playing):
 @bot.listen()
 async def on_message(message):
     try:
+	if message.channel.id in ignoredChannels:
+            return
         if message.author == bot.user:
             return
         if message.author.id == "540536088670896128":
