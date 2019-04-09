@@ -48,7 +48,7 @@ async def changeplaying(ctx, *, playing):
 @bot.listen()
 async def on_message(message):
     try:
-	if message.channel.id in ignoredChannels:
+        if message.channel.id in ignoredChannels:
             return
         if message.author == bot.user:
             return
